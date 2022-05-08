@@ -1,14 +1,24 @@
 // Assignment code here
 // input variables
-var choices;
+var enter
+var password = ""
+var choices = []
 var confirmLower;
 var confirmUpper;
 var confirmNumber;
 var confirmSpecial;
 function generatePassword() {
   // first takes user inputs
-  {
-    confirmLower = confirm(" Do you want to include lowercasse letters?");
+  enter = parseInt(prompt("How many characters would you like your password? Choose between 8 and 128"));
+
+  if (!enter) {
+    alert("This needs a value");
+  } else if (enter < 8 || enter > 128) {
+
+    enter = parseInt(prompt("You must choose between 8 and 128"));
+  }
+  else {
+    confirmLower = confirm(" Do you want to include lowercase letters?");
     confirmUpper = confirm(" Do you want to include uppercase letters?");
     confirmNumber = confirm(" Do you want to include numbers?");
     confirmSpecial = confirm(" Do you want to include special characters?");
@@ -19,47 +29,47 @@ function generatePassword() {
   }
   // all options selected
   else if (confirmLower && confirmUpper && confirmNumber && confirmSpecial) {
-    choices = getRandomLower(), + getRandomUpper(), + getRandomNumber(), + getRandomSpecial();
+    choices = getRandomLower().concat(getRandomUpper(), getRandomNumber(), getRandomSpecial());
   }
   // 3 options selected
   else if (confirmLower && confirmUpper && confirmNumber) {
-    choices = getRandomLower(), + getRandomUpper(), + getRandomNumber();
+    choices = getRandomLower().concat(getRandomUpper(), getRandomNumber());
   }
 
   else if (confirmLower && confirmUpper && confirmSpecial) {
-    choices = getRandomLower(), + getRandomUpper(), + getRandomSpecial();
+    choices = getRandomLower().concat(getRandomUpper(), getRandomSpecial());
   }
 
   else if (confirmLower && confirmNumber && confirmSpecial) {
-    choices = getRandomLower(), + getRandomNumber(), + getRandomSpecial();
+    choices = getRandomLower().concat(getRandomNumber(), getRandomSpecial());
   }
 
   else if (confirmUpper && confirmNumber && confirmSpecial) {
-    choices = getRandomUpper(), + getRandomNumber(), + getRandomSpecial();
+    choices = getRandomUpper().concat(getRandomNumber(), getRandomSpecial());
   }
   // 2 options selected
   else if (confirmLower && confirmUpper) {
-    choices = getRandomLower(), + getRandomUpper();
+    choices = getRandomLower().concat(getRandomUpper());
   }
 
   else if (confirmLower && confirmNumber) {
-    choices = getRandomLower(), + getRandomNumber();
+    choices = getRandomLower().concat(getRandomNumber());
   }
 
   else if (confirmLower && confirmSpecial) {
-    choices = getRandomLower(), + getRandomSpecial();
+    choices = getRandomLower().concat(getRandomSpecial());
   }
 
   else if (confirmUpper && confirmNumber) {
-    choices = getRandomUpper(), + getRandomNumber();
+    choices = getRandomUpper().concat(getRandomNumber());
   }
 
   else if (confirmUpper && confirmSpecial) {
-    choices = getRandomUpper(), + getRandomSpecial();
+    choices = getRandomUpper().concat(getRandomSpecial());
   }
 
   else if (confirmNumber && confirmSpecial) {
-    choices = getRandomNumber(), + getRandomSpecial();
+    choices = getRandomNumber().concat(getRandomSpecial());
   }
   // 1 option selected
   else if (confirmLower) {
@@ -78,8 +88,9 @@ function generatePassword() {
     choices = getRandomSpecial();
   };
 
-  for (var i = 0; i < 8; i++) {
+  for (i = 0; i < enter; i++) {
     var pickChoices = choices[Math.floor(Math.random() * choices.length)];
+    password += pickChoices
   }
 };
 
@@ -87,26 +98,41 @@ function generatePassword() {
 
 // character functions
 function getRandomLower() {
+  var lowerarray = []
   const lower = 'abcdefghijklmnopqrstuvwxyz';
-  return lower[Math.floor(Math.random() * lower.length)];
+  for (i = 0; i < lower.length; i++) {
+    lowerarray.push(lower[i])
+  }
+  return lowerarray
 }
 
 function getRandomUpper() {
+  var upperarray = []
   const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  return upper[Math.floor(Math.random() * upper.length)];
+  for (i = 0; i < upper.length; i++) {
+    upperarray.push(upper[i])
+  }
+  return upperarray
 }
 
 function getRandomNumber() {
+  var numberarray = []
   const number = '0123456789';
-  return number[Math.floor(Math.random() * number.length)];
+  for (i = 0; i < number.length; i++) {
+    numberarray.push(number[i])
+  }
+  return numberarray
 }
 
 function getRandomSpecial() {
+  var specialarray = []
   const special = '!@#$%^&*()';
-  return special[Math.floor(Math.random() * special.length)];
+  for (i = 0; i < special.length; i++) {
+    specialarray.push(special[i])
+  }
+  return specialarray
 }
 
-console.log(generatePassword());
 {
   // Get references to the #generate element
   var generateBtn = document.querySelector("#generate");
@@ -118,10 +144,13 @@ console.log(generatePassword());
 
     passwordText.value = password;
 
+    function UserInput(password) {
+      document.getElementById("#password").textContent = generatePassword()
+    }
+
   }
 
   // Add event listener to generate button
-  generateBtn.addEventListener("click", writePassword);
-
-
+  generateBtn.addEventListener("click", writePassword());
+  console.log("password: ", password)
 }
